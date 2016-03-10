@@ -1,5 +1,11 @@
-security.ignored: /console/**
+security:
+  ignored: /console/**
 
-spring.h2.console:
-  enabled: true
-  path: /console
+
+spring:
+  application.name: auth
+  h2.console:
+    enabled: true
+    path: /console
+
+server.port: 8443
