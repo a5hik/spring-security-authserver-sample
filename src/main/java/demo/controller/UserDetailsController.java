@@ -15,7 +15,7 @@ public class UserDetailsController {
 	}
 
 	@RequestMapping("/private")
-	@PreAuthorize("hasRole('ROLE_FODAO')")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public String privateMethod() {
 		return "Hello Oauth World!";
 	}
