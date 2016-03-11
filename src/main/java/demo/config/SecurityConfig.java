@@ -8,8 +8,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 /**
  * @author marcos.barbero
  */
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
 }

@@ -3,3 +3,11 @@ security.ignored: /console/**
 spring.h2.console:
   enabled: true
   path: /console
+
+server:
+  port: 8443
+  
+spring:
+  application:
+    name: auth
+

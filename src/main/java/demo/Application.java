@@ -1,17 +1,13 @@
 package demo;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
+import org.springframework.cloud.client.SpringCloudApplication;
 
-/**
- * @author Marcos Barbero
- */
-@EnableResourceServer
-@SpringBootApplication
+@SpringCloudApplication
 public class Application {
 
-    public static void main(String... args) {
-        SpringApplication.run(Application.class, args);
-    }
+	public static void main(final String[] args) {
+		SpringApplication.run(Application.class, args);
+	}
+
 }

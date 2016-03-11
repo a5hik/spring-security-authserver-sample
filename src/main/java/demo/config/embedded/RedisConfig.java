@@ -7,10 +7,10 @@ import javax.annotation.PreDestroy;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.RedisServer;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 
 import redis.clients.jedis.Protocol;
-import redis.embedded.RedisServer;
 
 /**
  * @author marcos.barbero
@@ -20,11 +20,10 @@ public class RedisConfig {
 
 	RedisServer redisServer;
 
-	private static boolean available(int port) {
+	private static boolean available(final int port) {
 		try (Socket ignored = new Socket("localhost", port)) {
 			return false;
-		}
-		catch (IOException ignored) {
+		} catch (final IOException ignored) {
 			return true;
 		}
 	}
