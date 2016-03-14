@@ -10,4 +10,11 @@ server:
 spring:
   application:
     name: auth
+  redis:
+    host: redis
+    port: 6379
 
+#eureka:
+#  client:
+#    service-url:
+#      discovery1:8761, discovery2:8762
