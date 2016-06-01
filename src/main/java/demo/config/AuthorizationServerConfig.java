@@ -1,11 +1,14 @@
 package demo.config;
 
+import java.security.KeyPair;
+
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -14,7 +17,9 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
+import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
+import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 
 /**
  * @author marcos.barbero
@@ -27,11 +32,21 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	private DataSource dataSource;
 
 	@Autowired
-	private RedisConnectionFactory cf;
+	private AuthenticationManager authenticationManager;
 
 	@Bean
 	public TokenStore tokenStore() {
-		return new RedisTokenStore(cf);
+		return new JwtTokenStore(jwtAccessTokenConverter());
+	}
+
+	@Bean
+	public JwtAccessTokenConverter jwtAccessTokenConverter() {
+		JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
+		KeyPair keyPair = new KeyStoreKeyFactory(new ClassPathResource("keystore.jks"),
+				"letmein".toCharArray()).getKeyPair("mytestkey",
+						"changeme".toCharArray());
+		converter.setKeyPair(keyPair);
+		return converter;
 	}
 
 	@Bean
@@ -45,12 +60,17 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	}
 
 	@Override
-	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-		endpoints.tokenStore(this.tokenStore());
+	public void configure(AuthorizationServerEndpointsConfigurer endpoints)
+			throws Exception {
+		endpoints.authenticationManager(this.authenticationManager)
+				.accessTokenConverter(this.jwtAccessTokenConverter())
+				.tokenStore(this.tokenStore());
 	}
 
 	@Override
-	public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-		security.passwordEncoder(this.passwordEncoder());
+	public void configure(AuthorizationServerSecurityConfigurer oauthServer)
+			throws Exception {
+		oauthServer.passwordEncoder(this.passwordEncoder()).tokenKeyAccess("permitAll()")
+				.checkTokenAccess("isAuthenticated()");
 	}
 }

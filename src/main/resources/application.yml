@@ -1,11 +1,11 @@
 security:
   ignored: /console/**
 
-
 spring:
   application.name: auth
   h2.console:
     enabled: true
     path: /console
+  jackson.serialization.indent_output: true
 
 server.port: 8443
