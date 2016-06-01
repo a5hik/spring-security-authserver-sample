@@ -34,9 +34,14 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
+	private TokenStore tokenStore;
+
 	@Bean
 	public TokenStore tokenStore() {
-		return new JwtTokenStore(jwtAccessTokenConverter());
+		if (tokenStore == null) {
+			tokenStore = new JwtTokenStore(jwtAccessTokenConverter());
+		}
+		return tokenStore;
 	}
 
 	@Bean
