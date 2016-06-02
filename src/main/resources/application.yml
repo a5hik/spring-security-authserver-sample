@@ -1,5 +1,5 @@
 security:
-  ignored: /console/**
+  ignored: /console/**,/authcode
 
 spring:
   application.name: auth
