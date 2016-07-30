@@ -20,7 +20,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
 		if ("admin".equals(s)) {
 			return new User(s, "123", true, true, true, true,
-                    Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER")));
+					Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER")));
 		}
 		throw new UsernameNotFoundException("User not found");
 	}
