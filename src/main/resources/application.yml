@@ -1,5 +1,1 @@
-security.ignored: /console/**
 
-spring.h2.console:
-  enabled: true
-  path: /console

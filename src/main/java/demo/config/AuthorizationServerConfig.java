@@ -19,6 +19,7 @@ import org.springframework.security.oauth2.provider.token.store.redis.RedisToken
 /**
  * @author marcos.barbero
  */
+
 @Configuration
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
@@ -40,17 +41,18 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	}
 
 	@Override
-	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+	public void configure(final ClientDetailsServiceConfigurer clients) throws Exception {
 		clients.jdbc(this.dataSource);
 	}
 
 	@Override
-	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+	public void configure(final AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
 		endpoints.tokenStore(this.tokenStore());
 	}
 
 	@Override
-	public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
+	public void configure(final AuthorizationServerSecurityConfigurer security) throws Exception {
 		security.passwordEncoder(this.passwordEncoder());
 	}
+
 }
